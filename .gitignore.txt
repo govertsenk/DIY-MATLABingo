@@ -7,8 +7,9 @@
 *.m~
 
 # Figures and Photos
-*.png
-*.PNG
-*.fig
-*.jpg
-*.pdf
+**.png
+**.PNG
+**.fig
+**.jpg
+**.JPEG
+**.pdf
