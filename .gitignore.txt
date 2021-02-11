@@ -1,0 +1,14 @@
+# Configuration files
+*.ini
+
+# Autosave files
+*.autosave
+*.asv
+*.m~
+
+# Figures and Photos
+*.png
+*.PNG
+*.fig
+*.jpg
+*.pdf
