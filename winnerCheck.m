@@ -42,11 +42,10 @@ while length(winner)==length(unique(winner)) == 0
                 winner(4) = coverAllWinner;
             end
         end
+        
         if coverAllWinner > 0
             break
         end
-        
-        
     end
 end
 
