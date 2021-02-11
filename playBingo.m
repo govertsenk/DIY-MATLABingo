@@ -8,14 +8,16 @@ tiles = dir(filepath);
 tiles = tiles(~ismember({tiles.name},{'.','..'}));
 
 % How Many Players?
-numPlayers = 20;
+numPlayers = 3;
+
+emails = {'govertsen.k@northeastern.edu','govertsen.krissy@gmail.com','krissygovie@gmail.com'};
 
 % Split Tiles into 5 Columns
 numCol = 5;
 numTiles = length(tiles);
 
 % Make Bingo Cards
-[bingoCards] = makeBingoCards(numPlayers,numCol,numTiles);
+bingoCards = makeBingoCards(filepath, tiles, emails, numPlayers,numCol,numTiles);
 
 callOrder = winnerCheck(bingoCards,numTiles,numPlayers);
 
@@ -25,7 +27,14 @@ crossWinner = 0;
 coverAllWinner = 0;
 check = zeros(size(bingoCards));
 
+
+
 for iCall = 1:numTiles
+    figure(1)
+    subplot(5,9,callOrder(iCall)), imshow(imread(strcat(filepath,'\',tiles(callOrder(iCall)).name)))
+    %figure(2)
+    %open the little info thingy 
+    
     check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
     if fourCornersWinner == 0
         fourCornersWinner = fourCorners(check,numPlayers,fourCornersWinner);
@@ -54,6 +63,5 @@ for iCall = 1:numTiles
     if coverAllWinner > 0
         break
     end
-    
 end
 

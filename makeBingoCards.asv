@@ -1,4 +1,4 @@
-function [masterList] = makeBingoCards(filepath,numPlayers)
+function [bingoCards] = makeBingoCards(filepath, tiles, emails, numPlayers, numCol, numTiles)
 % This function opens a folder which contains the pdfs you wish to use for 
 % bingo. These pdfs are then compiled and renamed as an ID number in a 
 % different folder. 
@@ -6,35 +6,45 @@ function [masterList] = makeBingoCards(filepath,numPlayers)
 % The numeric matrices and each idnumber are stored as a 3D matrix to later
 % be used to verify winners
 
-
-% Make a directory of the Tiles from the filepath
-tiles = dir(filepath);
-
-% Keep just the PDFS 
-tiles = tiles(~ismember({tiles.name},{'.','..'}));
-
-% Split Tiles into 5 Columns 
-numCol = 5;
-numTiles = length(tiles);
-
-% Add index Column 
-idX = num2cell(1:numTiles)';
-[tiles.idX] = idX{:}; 
-
 % Make Empty Bingo Matrix 
-bingo = zeros(numCol,numCol,numPlayers);
+bingoCards = zeros(numCol,numCol,numPlayers);
+subplotNumbering = [1:5;6:10;11:15;16:20;21:25]
 
 for iPlayer = 1:numPlayers; 
-    bingo(:,1,iPlayer) = randperm(9,5)';
-    bingo(:,2,iPlayer) = randperm(9,5)'+9;
-    bingo(:,3,iPlayer) = randperm(9,5)'+9*2;
-    bingo(:,4,iPlayer) = randperm(9,5)'+9*3;
-    bingo(:,5,iPlayer) = randperm(9,5)'+9*4;
+    bingoCards(:,1,iPlayer) = randperm(9,5)';
+    bingoCards(:,2,iPlayer) = randperm(9,5)'+9;
+    bingoCards(:,3,iPlayer) = randperm(9,5)'+9*2;
+    bingoCards(:,4,iPlayer) = randperm(9,5)'+9*3;
+    bingoCards(:,5,iPlayer) = randperm(9,5)'+9*4;
     
     % Make free space 0 
-    bingo(3,3,iPlayer) = 0;
+    bingoCards(3,3,iPlayer) = 0;
 end 
 
-% Make bi
+% Make bingo boards
+for iPlayer = 1%:numPlayers 
+    figure('units','inch','position',[0,0,8,8])
+    for idX = 1:25
+        subplot(5,5,subplotNumbering(idX))
+        if bingoCards(idX) > 0 
+            imshow(imread(strcat(filepath,'\',tiles(bingoCards(idX)).name)))
+        else
+            imshow(imread(strcat('C:\Users\gover\OneDrive - Northeastern University','\','huskygwise_pride.png')))
+        end
+    end
+    sgtitle(strcat(num2str(emails{iPlayer}),', Thank You For Playing GWiSE BINGO!'))
+    saveas(gcf,strcat('C:\Users\gover\OneDrive - Northeastern University\',num2str(iPlayer),'.pdf'))
+    prompt = {'Enter your email:','Enter your email password:'}
+    dlgtitle = 'Email Log In';
+    answer 
+    setpref('Internet','E_mail','govertsen.krissy@gmail.com');
+    setpref('Internet','SMTP_Server','smtp.gmail.com');
+
+    sendmail(emails(iPlayer),'Here is your Bingo Card! Good Luck!', ...
+    'Thanks for using sendmail.',strcat('C:\Users\gover\OneDrive - Northeastern University\',num2str(iPlayer),'.pdf'));
+end
+
+% Email PDF to Participants 
+
 end
 

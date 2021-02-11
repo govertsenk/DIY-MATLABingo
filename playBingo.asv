@@ -1,38 +1,66 @@
-% Update Filepath to Folder Where Tile PDFS are saved  
+% Update Filepath to Folder Where Tile PDFS are saved
 filepath = "C:\Users\gover\OneDrive - Northeastern University\Tiles";
 
 % Make a directory of the Tiles from the filepath
 tiles = dir(filepath);
 
-% Keep just the PDFS 
+% Keep just the PDFS
 tiles = tiles(~ismember({tiles.name},{'.','..'}));
 
-% How Many Players? 
+% How Many Players?
 numPlayers = 3;
 
-% Split Tiles into 5 Columns 
+emails = {'govertsen.k@northeastern.edu','govertsen.krissy@gmail.com','krissygovie@gmail.com'};
+
+% Split Tiles into 5 Columns
 numCol = 5;
 numTiles = length(tiles);
 
 % Make Bingo Cards
-[bingoCards] = makeBingoCards(numPlayers,numCol,numTiles);
+[bingoCards] = makeBingoCards(filepath, tiles, emails, numPlayers,numCol,numTiles);
 
-% GameCheck 
-check = zeros(size(bingoCards));
+callOrder = winnerCheck(bingoCards,numTiles,numPlayers);
 
 fourCornersWinner = 0;
-bingoWinner = 0; 
-crossWinner = 0; 
-coverAllWinner = 0; 
+bingoWinner = 0;
+crossWinner = 0;
+coverAllWinner = 0;
+check = zeros(size(bingoCards));
 
-% Call Order
-callOrder = randperm(numTiles);
+
 
 for iCall = 1:numTiles
-    check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1 
-        fourCornerWinner = fourCorners(check,numPlayers,fourCornerWinner);
-        bingoWinner = bingo(check, numPlayers, bingoWinner)
-        crossWinner = cross(check,numPlayers,crossWinner)
-        coverAllWinner = coverAll(check, numPlayers, coverAllWinner)
+    figure(1)
+    subplot(5,9,callOrder(iCall)), imshow(imread(strcat(filepath,'\',tiles(callOrder(iCall)).name)))
+    %figure(2)
+    %open the little info thingy 
+    check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
+    if fourCornersWinner == 0
+        fourCornersWinner = fourCorners(check,numPlayers,fourCornersWinner);
+        if fourCornersWinner > 0
+            fprintf('Player %d has Four Courners! Congratulations!\n',fourCornersWinner)
+        end
+    end
+    if bingoWinner == 0
+        bingoWinner = bingo(check, numPlayers, bingoWinner);
+        if bingoWinner > 0
+            fprintf('Player %d has bingo! Congratulations!\n',bingoWinner)
+        end
+    end
+    if crossWinner == 0
+        crossWinner = cross(check,numPlayers,crossWinner);
+        if crossWinner > 0
+            fprintf('Player %d has the X! Congratulations!\n',crossWinner)
+        end
+    end
+    if coverAllWinner == 0
+        coverAllWinner = coverAll(check, numPlayers, coverAllWinner);
+        if coverAllWinner > 0
+            fprintf('Player %d has the covered them all! Congratulations!\n',coverAllWinner)
+        end
+    end
+    if coverAllWinner > 0
+        break
+    end
 end
 
