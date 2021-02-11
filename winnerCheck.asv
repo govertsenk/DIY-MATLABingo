@@ -1,0 +1,53 @@
+function [callOrder] = winnerCheck(bingoCards)
+
+% GameCheck
+check = zeros(size(bingoCards));
+winner = zeros(4,1);
+
+if length(winner)==length(unique(winner)) == 0
+    fourCornersWinner = 0;
+    bingoWinner = 0;
+    crossWinner = 0;
+    coverAllWinner = 0;
+    
+    % Call Order
+    callOrder = randperm(numTiles);
+    
+    for iCall = 1:numTiles
+        check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
+        if fourCornersWinner == 0
+            fourCornersWinner = fourCorners(check,numPlayers,fourCornersWinner);
+            if fourCornersWinner > 0
+                fprintf('Player %d has Four Courners! Congratulations!\n',fourCornersWinner)
+            end
+        end
+        if bingoWinner == 0
+            bingoWinner = bingo(check, numPlayers, bingoWinner);
+            if bingoWinner > 0
+                fprintf('Player %d has bingo! Congratulations!\n',bingoWinner)
+            end
+        end
+        if crossWinner == 0
+            crossWinner = cross(check,numPlayers,crossWinner);
+            if crossWinner > 0
+                fprintf('Player %d has the X! Congratulations!\n',crossWinner)
+            end
+        end
+        if coverAllWinner == 0
+            coverAllWinner = coverAll(check, numPlayers, coverAllWinner);
+            if coverAllWinner > 0
+                fprintf('Player %d has the covered them all! Congratulations!\n',coverAllWinner)
+            end
+        end
+        if coverAllWinner > 0
+            break
+        end
+        
+        winner(1)= fourCornersWinner;
+        winner(2) = bingoWinner;
+        winner(3) = crossWinner;
+        winner(4) = coverAllWinner;
+    end
+    
+end
+

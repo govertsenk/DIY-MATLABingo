@@ -1,0 +1,38 @@
+% Update Filepath to Folder Where Tile PDFS are saved  
+filepath = "C:\Users\gover\OneDrive - Northeastern University\Tiles";
+
+% Make a directory of the Tiles from the filepath
+tiles = dir(filepath);
+
+% Keep just the PDFS 
+tiles = tiles(~ismember({tiles.name},{'.','..'}));
+
+% How Many Players? 
+numPlayers = 3;
+
+% Split Tiles into 5 Columns 
+numCol = 5;
+numTiles = length(tiles);
+
+% Make Bingo Cards
+[bingoCards] = makeBingoCards(numPlayers,numCol,numTiles);
+
+% GameCheck 
+check = zeros(size(bingoCards));
+
+fourCornersWinner = 0;
+bingoWinner = 0; 
+crossWinner = 0; 
+coverAllWinner = 0; 
+
+% Call Order
+callOrder = randperm(numTiles);
+
+for iCall = 1:numTiles
+    check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1 
+        fourCornerWinner = fourCorners(check,numPlayers,fourCornerWinner);
+        bingoWinner = bingo(check, numPlayers, bingoWinner)
+        crossWinner = cross(check,numPlayers,crossWinner)
+        coverAllWinner = coverAll(check, numPlayers, coverAllWinner)
+end
+

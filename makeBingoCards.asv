@@ -1,0 +1,40 @@
+function [masterList] = makeBingoCards(filepath,numPlayers)
+% This function opens a folder which contains the pdfs you wish to use for 
+% bingo. These pdfs are then compiled and renamed as an ID number in a 
+% different folder. 
+%
+% The numeric matrices and each idnumber are stored as a 3D matrix to later
+% be used to verify winners
+
+
+% Make a directory of the Tiles from the filepath
+tiles = dir(filepath);
+
+% Keep just the PDFS 
+tiles = tiles(~ismember({tiles.name},{'.','..'}));
+
+% Split Tiles into 5 Columns 
+numCol = 5;
+numTiles = length(tiles);
+
+% Add index Column 
+idX = num2cell(1:numTiles)';
+[tiles.idX] = idX{:}; 
+
+% Make Empty Bingo Matrix 
+bingo = zeros(numCol,numCol,numPlayers);
+
+for iPlayer = 1:numPlayers; 
+    bingo(:,1,iPlayer) = randperm(9,5)';
+    bingo(:,2,iPlayer) = randperm(9,5)'+9;
+    bingo(:,3,iPlayer) = randperm(9,5)'+9*2;
+    bingo(:,4,iPlayer) = randperm(9,5)'+9*3;
+    bingo(:,5,iPlayer) = randperm(9,5)'+9*4;
+    
+    % Make free space 0 
+    bingo(3,3,iPlayer) = 0;
+end 
+
+% Make bi
+end
+
