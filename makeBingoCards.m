@@ -1,4 +1,4 @@
-function [bingoCards] = makeBingoCards(filepath, tiles, emails, numPlayers, numCol, numTiles)
+function [bingoCards] = makeBingoCards(tiles, emails, numPlayers, numCol, numTiles)
 % This function opens a folder which contains the pdfs you wish to use for
 % bingo. These pdfs are then compiled and renamed as an ID number in a
 % different folder.
@@ -32,13 +32,13 @@ end
 %     for idX = 1:25
 %         subplot(5,5,subplotNumbering(idX))
 %         if bingoCards(idX) > 0
-%             imshow(imread(strcat(filepath,'\',tiles(bingoCards(idX)).name)))
+%             imshow(imread(strcat(pwd,'/Tiles/',tiles(bingoCards(idX)).name)))
 %         else
-%             imshow(imread(strcat('C:\Users\gover\OneDrive - Northeastern University','\','huskygwise_pride.png')))
+%             imshow(imread(strcat(pwd,'/FreeSpace/','FreeSpace.png')))
 %         end
 %     end
 %     sgtitle(strcat(num2str(emails{iPlayer}),', Thank You For Playing GWiSE BINGO!'))
-%     saveas(gcf,strcat('C:\Users\gover\OneDrive - Northeastern University\',num2str(iPlayer),'.pdf'))
+%     saveas(gcf,strcat(pwd,'/BingoCards',num2str(iPlayer),'.pdf'))
 %     
 %     setpref('Internet','E_mail',answer{1});
 %     setpref('Internet','SMTP_Server','smtp.gmail.com');
@@ -50,7 +50,7 @@ end
 %     props.setProperty('mail.smtp.socketFactory.class', 'javax.net.ssl.SSLSocketFactory');
 %     props.setProperty('mail.smtp.socketFactory.port','465');
 %     sendmail(emails(iPlayer),'GWiSE BINGO', ...
-%         'Here is your Bingo Card! Good Luck!',strcat('C:\Users\gover\OneDrive - Northeastern University\',num2str(iPlayer),'.pdf'));
+%         'Here is your Bingo Card! Good Luck!',strcat('/BingoCards_',num2str(iPlayer),'.pdf'));
 %     clf
 % end
 
