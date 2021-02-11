@@ -7,9 +7,16 @@
 *.m~
 
 # Figures and Photos
-**.png
-**.PNG
-**.fig
-**.jpg
-**.JPEG
-**.pdf
+*.png
+*.PNG
+*.fig
+*.jpg
+*.JPEG
+*.pdf
+
+# Subfolders 
+/BingoCards
+/Free Space
+/TileBios
+/Tiles
+/Ways2Win
