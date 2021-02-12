@@ -1,3 +1,11 @@
+%% Upload Player CV
+% Save a xlsx or csv of players where the first column is their email
+% addresses 
+[~,Players,~]= xlsread(strcat(pwd,'/Players/Players.xlsx'));
+
+% How Many Players?
+numPlayers = length(Players); 
+emails = Players(:,1);
 %% Set Up Game
 % Make a directory of the Tiles stored as PNG's in the Tile Folder. You
 % Must add your own pngs to this folder. They will not sync to github.
@@ -10,22 +18,13 @@ tiles = tiles(~ismember({tiles.name},{'.','..'}));
 tileBios = dir(strcat(pwd,'/TileBios'));
 tileBios = tileBios(~ismember({tileBios.name},{'.','..'}));
 
-% How Many Players?
-numPlayers = str2double(cell2mat(inputdlg({'How Many Players?'},'Game Set Up 2 ')));
-
-% What are their emails?
-emailList = cell(numPlayers,2);
-for iPlayer = 1:numPlayers
-    emailList{iPlayer,2} = strcat('Player',num2str(iPlayer),'E-mail');
-end
-emailList(:,1) = inputdlg(emailList(:,2),'Emails');
 
 % Split Tiles into 5 Columns
 numCol = 5;
 numTiles = length(tiles);
 
 %% Make Bingo Cards and Call Order
-bingoCards = makeBingoCards(tiles, emailList(:,1), numPlayers,numCol,numTiles);
+bingoCards = makeBingoCards(tiles, emails, numPlayers,numCol,numTiles);
 
 callOrder = winnerCheck(bingoCards,numTiles,numPlayers);
 
