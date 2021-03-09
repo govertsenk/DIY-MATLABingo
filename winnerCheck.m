@@ -1,5 +1,6 @@
 function [callOrder,winner] = winnerCheck(bingoCards,numTiles,numPlayers)
 solution = 0;
+iteration = 0;
 
 while solution == 0
     error = 0;
@@ -7,6 +8,7 @@ while solution == 0
     
     % GameCheck
     check = zeros(size(bingoCards));
+    check(3,3,:) = 1; 
     
     fourCornersWinner = [];
     bingoWinner = [];
@@ -15,35 +17,36 @@ while solution == 0
     
     % Call Order
     callOrder = randperm(numTiles);
-    
-    for iCall = 1:numTiles
-            check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
-            
-            % Check 4  Corners
-            if isempty(fourCornersWinner)
-                fourCornersWinner = fourCorners(check,numPlayers);
-                if ~isempty(fourCornersWinner)
-                    if length(fourCornersWinner) == 1
-                        winner(1)= fourCornersWinner;
-                    else
-                        error = 1;
-                        break
-                    end
-                end
-            end
-            % Check Bingo
-            if isempty(bingoWinner)
-                bingoWinner = bingo(check, numPlayers);
-                if ~isempty(bingoWinner)
-                    if length(bingoWinner) == 1
-                        winner(2)= bingoWinner;
-                    else
-                        error = 1;
-                        break
-                    end
-                end
-            end
+    iteration = iteration + 1;
 
+    for iCall = 1:numTiles
+        check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
+        
+        % Check 4  Corners
+        if isempty(fourCornersWinner)
+            fourCornersWinner = fourCorners(check,numPlayers);
+            if ~isempty(fourCornersWinner)
+                if length(fourCornersWinner) == 1
+                    winner(1)= fourCornersWinner;
+                else
+                    error = 1;
+                    break
+                end
+            end
+        end
+        % Check Bingo
+        if isempty(bingoWinner)
+            bingoWinner = bingo(check, numPlayers);
+            if ~isempty(bingoWinner)
+                if length(bingoWinner) == 1
+                    winner(2)= bingoWinner;
+                else
+                    error = 1;
+                    break
+                end
+            end
+        end
+        
         % Check crossWinner
         if isempty(crossWinner)
             crossWinner = cross(check,numPlayers);
@@ -72,8 +75,8 @@ while solution == 0
         
     end
     if length(nonzeros(winner)) ~= length(unique(nonzeros(winner)))
-        error = 1; 
-    end 
+        error = 1;
+    end
     if error == 1
         continue
     end
@@ -82,4 +85,14 @@ while solution == 0
         solution = 1;
         fprintf('The winners will be: \n four corner: %d \n bingo: %d \n cross: %d \n coverall: %d! \n',fourCornersWinner,bingoWinner, crossWinner, coverAllWinner)
     end
+<<<<<<< Updated upstream
+=======
+
+    if iteration == 25
+        disp('25 iterations, no solution')
+        break
+    end
+end
+
+>>>>>>> Stashed changes
 end
