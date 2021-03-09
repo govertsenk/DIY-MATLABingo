@@ -15,8 +15,7 @@ tileBios = tileBios(~ismember({tileBios.name},{'.','..'}));
 numCol = 5;
 numTiles = length(tiles);
 
-%% Make 50 Bingo Cards
-% bingoCards = makeBingoCards(tiles, numCol,50);
+% Load Bingo Cards
 load(strcat(pwd,'/BingoCards/bingoCards.mat'))
 
 %% %% Upload Player CV
@@ -28,14 +27,6 @@ load(strcat(pwd,'/BingoCards/bingoCards.mat'))
 numPlayers = length(Players); 
 emails = Players(:,1);
 
-%% Send necessary number of Bingo Cards 
-% sendCards(emails)
-%% Save Call Order for each 
-% for iNum = 10:50
-% [callOrder, winners] = winnerCheck(bingoCards,numTiles,iNum);
-% save(strcat(pwd,'\CallOrder\',num2str(iNum),'PlayerCallOrders.mat'),'callOrder')
-% save(strcat(pwd,'\CallOrder\',num2str(iNum),'winners.mat'),'winners')
-% end 
 %% Load 
 load(strcat(pwd,'/CallOrder/',num2str(numPlayers),'PlayerCallOrders.mat'))
 load(strcat(pwd,'/CallOrder/',num2str(numPlayers),'winners.mat'))
@@ -72,7 +63,7 @@ for iCall = 1:numTiles
         fourCornersWinner = fourCorners(check,numPlayers);
         if ~isempty(fourCornersWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/fourCorners.png'));
-            msg = strcat('When iCall=',num2str(iCall),'Player Number ', num2str(fourCornersWinner),' ',emails{fourCornersWinner,1},' has Four Corners! Congratulations!');
+            msg = strcat('When iCall= ',num2str(iCall),' Player Number ', num2str(fourCornersWinner),' ',emails{fourCornersWinner,1},' has Four Corners! Congratulations!');
             i = msgbox(msg,'Four Corner Winner','custom',icondata,iconcmap);
             disp(check)
             uiwait(i)
@@ -82,7 +73,7 @@ for iCall = 1:numTiles
         bingoWinner = bingo(check, numPlayers);
         if ~isempty(bingoWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/bingo.png'));
-            msg = strcat('When iCall=',num2str(iCall),'Player Number ', num2str(bingoWinner),' ',emails{bingoWinner,1},' has Bingo! Congratulations!');
+            msg = strcat('When iCall= ',num2str(iCall),' Player Number ', num2str(bingoWinner),' ',emails{bingoWinner,1},' has Bingo! Congratulations!');
             i = msgbox(msg,'Bingo Winner','custom',icondata,iconcmap);
             disp(check)
             uiwait(i)
@@ -92,7 +83,7 @@ for iCall = 1:numTiles
         crossWinner = cross(check,numPlayers);
         if ~isempty(crossWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/X.png'));
-            msg = strcat('When iCall=',num2str(iCall),'Player Number ', num2str(crossWinner),' ',emails{crossWinner,1},' has the X! Congratulations!');
+            msg = strcat('When iCall= ',num2str(iCall),' Player Number ', num2str(crossWinner),' ',emails{crossWinner,1},' has the X! Congratulations!');
             i = msgbox(msg,'X Winner','custom',icondata,iconcmap);
             disp(check)
             uiwait(i)
@@ -102,7 +93,7 @@ for iCall = 1:numTiles
         coverAllWinner = coverAll(check, numPlayers);
         if ~isempty(coverAllWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/coverall.png'));
-            msg = strcat('When iCall=',num2str(iCall),'Player Number ', num2str(coverAllWinner),' ',emails{coverAllWinner,1},' has covered them all! Congratulations!');
+            msg = strcat('When iCall= ',num2str(iCall),' Player Number ', num2str(coverAllWinner),' ',emails{coverAllWinner,1},' has covered them all! Congratulations!');
             i = msgbox(msg,'Coverall Winner','custom',icondata,iconcmap);
             disp(check)
             uiwait(i)
