@@ -85,8 +85,6 @@ while solution == 0
         solution = 1;
         fprintf('The winners will be: \n four corner: %d \n bingo: %d \n cross: %d \n coverall: %d! \n',fourCornersWinner,bingoWinner, crossWinner, coverAllWinner)
     end
-<<<<<<< Updated upstream
-=======
 
     if iteration == 25
         disp('25 iterations, no solution')
@@ -94,5 +92,4 @@ while solution == 0
     end
 end
 
->>>>>>> Stashed changes
 end

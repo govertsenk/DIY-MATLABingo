@@ -31,11 +31,12 @@ emails = Players(:,1);
 %% Send necessary number of Bingo Cards 
 % sendCards(emails)
 %% Save Call Order for each 
-for iNum = 10
-[callOrder, winners] = winnerCheck(bingoCards,numTiles,iNum);
-save(strcat(pwd,'/BingoCards/',num2str(iNum),'PlayerCallOrders.mat'),callOrder)
+for iNum = 10:45
+% [callOrder, winners] = winnerCheck(bingoCards,numTiles,iNum);
+save(strcat(pwd,'\CallOrder\',num2str(iNum),'PlayerCallOrders.mat'),'callOrder')
 end 
-% load(strcat(pwd,'/BingoCards/callOrder.mat'))
+%% Load 
+% load(strcat(pwd,'/CallOrder/',num2str(numPlayers),'PlayerCallOrders.mat'))
 %% Make Bingo Cards and Call Order
 fourCornersWinner = [];
 bingoWinner = [];
