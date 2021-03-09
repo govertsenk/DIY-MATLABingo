@@ -5,7 +5,6 @@ function [bingoWinner] = bingo(check, numPlayers)
 bingoWinner = zeros(numPlayers,1);
     for iPlayer = 1:numPlayers
         A = check(:,:,iPlayer);
-        A(3,3) = 1;
         for iCol = 1:length(A)
             if all(A(:,iCol) == 1) || all(A(iCol,:) == 1)
               

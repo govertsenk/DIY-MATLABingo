@@ -5,7 +5,6 @@ coverAllWinner = zeros(numPlayers,1);
 
     for iPlayer = 1:numPlayers
         A = check(:,:,iPlayer);
-        A(3,3)=1;
         if all(all(A))
             coverAllWinner(iPlayer,1)=1;
         end
