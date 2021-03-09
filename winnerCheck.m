@@ -17,7 +17,6 @@ while solution == 0
     callOrder = randperm(numTiles);
     
     for iCall = 1:numTiles
-        if iCall >= 4
             check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
             
             % Check 4  Corners
@@ -44,7 +43,7 @@ while solution == 0
                     end
                 end
             end
-        end
+
         % Check crossWinner
         if isempty(crossWinner)
             crossWinner = cross(check,numPlayers);
