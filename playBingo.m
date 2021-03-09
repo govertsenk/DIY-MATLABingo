@@ -1,11 +1,3 @@
-%% Upload Player CV
-% Save a xlsx or csv of players where the first column is their email
-% addresses 
-[~,Players,~]= xlsread(strcat(pwd,'/Players/Players.xlsx'));
-
-% How Many Players?
-numPlayers = length(Players); 
-emails = Players(:,1);
 %% Set Up Game
 % Make a directory of the Tiles stored as PNG's in the Tile Folder. You
 % Must add your own pngs to this folder. They will not sync to github.
@@ -23,16 +15,29 @@ tileBios = tileBios(~ismember({tileBios.name},{'.','..'}));
 numCol = 5;
 numTiles = length(tiles);
 
+%% Make 50 Bingo Cards
+% bingoCards = makeBingoCards(tiles, numCol,50);
+load(strcat(pwd,'/BingoCards/bingoCards.mat'))
+
+%% %% Upload Player CV
+% Save a xlsx or csv of players where the first column is their email
+% addresses 
+[~,Players,~]= xlsread(strcat(pwd,'/Players/Players.xlsx'));
+
+% How Many Players?
+numPlayers = length(Players); 
+emails = Players(:,1);
+
+%% Send necessary number of Bingo Cards 
+% sendCards(emails)
+%%
+[callOrder, winners] = winnerCheck(bingoCards,numTiles,numPlayers);
+
 %% Make Bingo Cards and Call Order
-bingoCards = makeBingoCards(tiles, emails, numPlayers,numCol,numTiles);
-
-callOrder = winnerCheck(bingoCards,numTiles,numPlayers);
-
-fourCornersWinner = 0;
-bingoWinner = 0;
-crossWinner = 0;
-coverAllWinner = 0;
-
+fourCornersWinner = [];
+bingoWinner = [];
+crossWinner = [];
+coverAllWinner = [];
 
 %% Play Bingo!
 % To reset call board: clear check clf
@@ -50,38 +55,38 @@ for iCall = 1:numTiles
     set(gcf,'Position',[4080,-15,569.5,846]);
     
     check(ind2sub(size(bingoCards == callOrder(iCall)),find(bingoCards == callOrder(iCall)))) = 1;
-    if fourCornersWinner == 0
-        fourCornersWinner = fourCorners(check,numPlayers,fourCornersWinner);
-        if fourCornersWinner > 0
+    if isempty(fourCornersWinner)
+        fourCornersWinner = fourCorners(check,numPlayers);
+        if ~isempty(fourCornersWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/fourCorners.png'));
-            msg = strcat(emailList{fourCornersWinner,1},' has Four Corners! Congratulations!');
+            msg = strcat(emails{fourCornersWinner,1},' has Four Corners! Congratulations!');
             i = msgbox(msg,'Four Corner Winner','custom',icondata,iconcmap);
             uiwait(i)
         end
     end
-    if bingoWinner == 0
-        bingoWinner = bingo(check, numPlayers, bingoWinner);
-        if bingoWinner > 0
+    if isempty(bingoWinner)
+        bingoWinner = bingo(check, numPlayers);
+        if ~isempty(bingoWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/bingo.png'));
-            msg = strcat(emailList{bingoWinner,1},' has Bingo! Congratulations!');
+            msg = strcat(emails{bingoWinner,1},' has Bingo! Congratulations!');
             i = msgbox(msg,'Bingo Winner','custom',icondata,iconcmap);
             uiwait(i)
         end
     end
-    if crossWinner == 0
-        crossWinner = cross(check,numPlayers,crossWinner);
-        if crossWinner > 0
+    if isempty(crossWinner)
+        crossWinner = cross(check,numPlayers);
+        if ~isempty(crossWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/X.png'));
-            msg = strcat(emailList{crossWinner,1},' has the X! Congratulations!');
+            msg = strcat(emails{crossWinner,1},' has the X! Congratulations!');
             i = msgbox(msg,'X Winner','custom',icondata,iconcmap);
             uiwait(i)
         end
     end
-    if coverAllWinner == 0
-        coverAllWinner = coverAll(check, numPlayers, coverAllWinner);
-        if coverAllWinner > 0
+    if isempty(coverAllWinner)
+        coverAllWinner = coverAll(check, numPlayers);
+        if ~isempty(coverAllWinner)
             [icondata,iconcmap] = imread(strcat(pwd,'/Ways2Win/coverall.png'));
-            msg = strcat(emailList{coverAllWinner,1},' has covered them all! Congratulations!');
+            msg = strcat(emails{coverAllWinner,1},' has covered them all! Congratulations!');
             i = msgbox(msg,'Coverall Winner','custom',icondata,iconcmap);
             uiwait(i)
         end

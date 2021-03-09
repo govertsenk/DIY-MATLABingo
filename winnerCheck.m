@@ -1,9 +1,10 @@
-function [callOrder] = winnerCheck(bingoCards,numTiles,numPlayers)
+function [callOrder,winner] = winnerCheck(bingoCards,numTiles,numPlayers)
+solution = 0;
 
-winner = zeros(4,1);
-
-while length(winner)==length(unique(winner)) == 0
+while solution == 0
+    error = 0;
     winner = zeros(4,1);
+    
     % GameCheck
     check = zeros(size(bingoCards));
     
@@ -23,11 +24,11 @@ while length(winner)==length(unique(winner)) == 0
             if isempty(fourCornersWinner)
                 fourCornersWinner = fourCorners(check,numPlayers);
                 if ~isempty(fourCornersWinner)
-                    if length(fourCornersWinner)>1
-                        break
-                    end
-                    if fourCornersWinner > 0
+                    if length(fourCornersWinner) == 1
                         winner(1)= fourCornersWinner;
+                    else
+                        error = 1;
+                        break
                     end
                 end
             end
@@ -35,45 +36,57 @@ while length(winner)==length(unique(winner)) == 0
             if isempty(bingoWinner)
                 bingoWinner = bingo(check, numPlayers);
                 if ~isempty(bingoWinner)
-                    if length(bingoWinner)>1
+                    if length(bingoWinner) == 1
+                        winner(2)= bingoWinner;
+                    else
+                        error = 1;
                         break
-                    end
-                    if bingoWinner > 0
-                        winner(2) = bingoWinner;
-                    end
-                end
-            end
-            % Check crossWinner
-            if isempty(crossWinner)
-                crossWinner = cross(check,numPlayers);
-                if ~isempty(crossWinner)
-                    if length(crossWinner)>1
-                        break
-                    end
-                    if crossWinner > 0
-                        winner(3) = crossWinner;
                     end
                 end
             end
         end
+        % Check crossWinner
+        if isempty(crossWinner)
+            crossWinner = cross(check,numPlayers);
+            if ~isempty(crossWinner)
+                if length(crossWinner) == 1
+                    winner(3)= crossWinner;
+                else
+                    error = 1;
+                    break
+                end
+            end
+        end
+        
         % Check Cover All Winner
         if isempty(coverAllWinner)
             coverAllWinner = coverAll(check, numPlayers);
             if ~isempty(coverAllWinner)
-                if length(coverAllWinner)>1
-                    break
+                if ~isempty(coverAllWinner)
+                    if length(coverAllWinner) == 1
+                        winner(4)= coverAllWinner;
+                    else
+                        error = 1;
+                        break
+                    end
                 end
-                if coverAllWinner > 0
-                    winner(4) = coverAllWinner;
-                end
-            end
-            
-            if coverAllWinner > 0
-                break
             end
         end
+        
+        
+    end
+    if length(nonzeros(winner)) ~= length(unique(nonzeros(winner)))
+        error = 1; 
+    end 
+    if error == 1
+        continue
+    end
+    
+    if error == 0 && ~any(winner == 0) && length(winner) == length(unique(winner))
+        solution = 1;
+        fprintf('The winners will be: 4 corner: %d, bingo: %d, cross: %d, coverall: %d! \n',fourCornersWinner,bingoWinner, crossWinner, coverAllWinner)
     end
 end
+
+
 end
-
-
