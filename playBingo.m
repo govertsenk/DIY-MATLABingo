@@ -30,7 +30,7 @@ emails = Players(:,1);
 
 %% Send necessary number of Bingo Cards 
 % sendCards(emails)
-% %% Save Call Order for each 
+%% Save Call Order for each 
 % for iNum = 10:50
 % [callOrder, winners] = winnerCheck(bingoCards,numTiles,iNum);
 % save(strcat(pwd,'\CallOrder\',num2str(iNum),'PlayerCallOrders.mat'),'callOrder')
