@@ -60,7 +60,6 @@ while solution == 0
         % Check Cover All Winner
         if isempty(coverAllWinner)
             coverAllWinner = coverAll(check, numPlayers);
-            if ~isempty(coverAllWinner)
                 if ~isempty(coverAllWinner)
                     if length(coverAllWinner) == 1
                         winner(4)= coverAllWinner;
@@ -68,10 +67,8 @@ while solution == 0
                         error = 1;
                         break
                     end
-                end
             end
         end
-        
         
     end
     if length(nonzeros(winner)) ~= length(unique(nonzeros(winner)))
@@ -83,9 +80,6 @@ while solution == 0
     
     if error == 0 && ~any(winner == 0) && length(winner) == length(unique(winner))
         solution = 1;
-        fprintf('The winners will be: 4 corner: %d, bingo: %d, cross: %d, coverall: %d! \n',fourCornersWinner,bingoWinner, crossWinner, coverAllWinner)
+        fprintf('The winners will be: \n four corner: %d \n bingo: %d \n cross: %d \n coverall: %d! \n',fourCornersWinner,bingoWinner, crossWinner, coverAllWinner)
     end
-end
-
-
 end
