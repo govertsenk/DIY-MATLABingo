@@ -29,7 +29,7 @@ numPlayers = length(Players);
 emails = Players(:,1);
 
 %% Send necessary number of Bingo Cards 
-% sendCards(emails)
+sendCards(emails)
 %%
 [callOrder, winners] = winnerCheck(bingoCards,numTiles,numPlayers);
 

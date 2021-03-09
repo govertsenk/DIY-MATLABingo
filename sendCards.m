@@ -13,8 +13,10 @@ props.setProperty('mail.smtp.auth','true');
 props.setProperty('mail.smtp.socketFactory.class', 'javax.net.ssl.SSLSocketFactory');
 props.setProperty('mail.smtp.socketFactory.port','465');
 numPlayers = length(emails);
-for iPlayer = 1:numPlayers
+tic
+parfor iPlayer = 1:numPlayers
     sendmail(emails(iPlayer),'GWiSE BINGO', ...
-        'Here is your Bingo Card! Good Luck!',{strcat(pwd,'/BingoCards/',num2str(iPlayer),'.pdf'),strcat(pwd,'/BingoCards/Ways2Win.pdf')});
+        'Here is your Bingo Card! Good Luck!',{strcat(pwd,'/BingoCards/BingoCard_PlayerNumber_',num2str(iPlayer),'.pdf'),strcat(pwd,'/BingoCards/Ways2Win.pdf')});
 end
+toc
 end 
