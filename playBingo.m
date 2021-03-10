@@ -21,7 +21,7 @@ load(strcat(pwd,'/BingoCards/bingoCards.mat'))
 %% %% Upload Player CV
 % Save a xlsx or csv of players where the first column is their email
 % addresses 
-[~,Players,~]= xlsread(strcat(pwd,'/Players/Players.xlsx'));
+[~,Players,~]= xlsread('C:/Users/gover/Northeastern University/GWISE - Superwise2 - 03 - March - Wonder Women''s  Bingo/Players.xlsx');
 
 % How Many Players?
 numPlayers = length(Players); 
@@ -106,3 +106,10 @@ for iCall = 1:numTiles
     
 end
 
+%% Select ' Cool Cat ' 
+players = [1:numPlayers];
+[~,loc] = ismember(winners,players);
+players(loc) = [];
+coolcat = players(randperm(length(players),1));
+msg = strcat('The "Cool Cat" is Player Number',{' '},num2str(coolcat),{' '},emails{coolcat,1},'! Congratulations!');
+i = msgbox(msg,'Cool Cat Winner');

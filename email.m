@@ -1,7 +1,7 @@
 %% %% Upload Player CV
 % Save a xlsx or csv of players where the first column is their email
 % addresses 
-[~,Players,~]= xlsread(strcat(pwd,'/Players/Players.xlsx'));
+[~,Players,~]= xlsread('C:/Users/gover/Northeastern University/GWISE - Superwise2 - 03 - March - Wonder Women''s  Bingo/Players.xlsx');
 
 % How Many Players?
 numPlayers = length(Players); 
